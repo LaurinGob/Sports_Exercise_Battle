@@ -9,7 +9,9 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50) NOT NULL UNIQUE,
     passwordHash VARCHAR(60) NOT NULL,
     userELO INT DEFAULT 100,
-    userToken Varchar(50)
+    userToken VARCHAR(50),
+    bio VARCHAR(50),
+    image VARCHAR(50)
 );
 
 -- create history table with foreign key to users
