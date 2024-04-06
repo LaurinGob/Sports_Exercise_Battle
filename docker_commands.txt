@@ -1,0 +1,3 @@
+running docker
+in CMD:
+docker run --name SEB_postgres_container -e POSTGRES_PASSWORD=SEB_Admin -d -p 5432:5432 postgres

@@ -1,0 +1,3 @@
+CREATE ROLE seb_connection WITH LOGIN PASSWORD 'seb_data_1234';
+GRANT ALL PRIVILEGES ON DATABASE postgres TO seb_connection;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO seb_connection;
