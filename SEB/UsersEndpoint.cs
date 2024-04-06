@@ -23,7 +23,6 @@ namespace Sports_Exercise_Battle.SEB
                 if (rq.Path[2] != null)
                 {
                     // BLL: if username was given
-
                     // authenticate
                     try
                     {
@@ -33,7 +32,45 @@ namespace Sports_Exercise_Battle.SEB
                             GetUserInfo(rq, rs);
                             rs.ResponseCode = 200;
                             rs.ResponseMessage = "OK";
+                        }
+                        else
+                        {
+                            // if credentials couldnt be authenticated
+                            rs.ResponseCode = 401;
+                            rs.ResponseMessage = "Unauthorized";
+                            rs.Content = "<html><body>Access token is missing or invalid</body></html>";
                             rs.Headers.Add("Content-Type", "text/html");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error in UsersEndpoint GET: " + ex.Message);
+                        return false;
+                    }
+                } else
+                {
+                    return false;
+                }
+                
+                return true;
+            }
+            else if (rq.Method == HttpMethod.PUT)
+            {
+                // check if /users/ or /users/*
+                if (rq.Path[2] != null)
+                {
+                    // BLL: if username was given
+                    // authenticate
+                    try
+                    {
+                        DatabaseAuthenticate auth = new DatabaseAuthenticate(rq.Path[2], rq.Headers["Authorization"]);
+                        if (auth.authenticated)
+                        {
+                            ChangeUserInfo(rq, rs);
+                            rs.ResponseCode = 200;
+                            rs.ResponseMessage = "OK";
+                            rs.Headers.Add("Content-Type", "text/html");
+                            rs.Content = "<html><body>User successfully updated</body></html>";
                         }
                         else
                         {
@@ -45,17 +82,18 @@ namespace Sports_Exercise_Battle.SEB
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Error in UsersEndpoint: " + ex.Message);
+                        Console.WriteLine("Error in UsersEndpoint PUT: " + ex.Message);
                         return false;
                     }
-                } else
+                }
+                else
                 {
                     return false;
                 }
-                
+
                 return true;
             }
-            return false; // if method is not "GET" or "POST"
+            return false; // if method is not "GET", "POST" or "PUT"
         }
 
         public void CreateUser(HttpRequest rq, HttpResponse rs)
@@ -85,6 +123,7 @@ namespace Sports_Exercise_Battle.SEB
             { 
                 DatabaseGetUserInfo dbContent = new DatabaseGetUserInfo(rq.Path[2]);
                 rs.Content = JsonSerializer.Serialize<UserData>(dbContent.QueryReturn);
+                rs.Headers.Add("Content-Type", "application/json");
             }
             catch (Exception e)
             {
@@ -92,6 +131,13 @@ namespace Sports_Exercise_Battle.SEB
                 rs.ResponseCode = 400;
                 rs.ResponseMessage = "Bad Request";
             }
+        }
+
+        public void ChangeUserInfo(HttpRequest rq, HttpResponse rs)
+        {
+            // deserialize and insert into db
+            var userData = JsonSerializer.Deserialize<UserData>(rq.Content ?? "");
+            Console.WriteLine("schnidl");
         }
     }
 }

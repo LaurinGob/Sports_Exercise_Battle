@@ -10,8 +10,9 @@ CREATE TABLE IF NOT EXISTS users (
     passwordHash VARCHAR(60) NOT NULL,
     userELO INT DEFAULT 100,
     userToken VARCHAR(50),
-    bio VARCHAR(50),
-    image VARCHAR(50)
+    bio VARCHAR(50) DEFAULT '',
+    image VARCHAR(50) DEFAULT '',
+    profileName VARCHAR(50) DEFAULT ''
 );
 
 -- create history table with foreign key to users
@@ -27,5 +28,3 @@ CREATE TABLE  IF NOT EXISTS history (
 -- grant permissions to seb_connection for all created tables
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO seb_connection;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO seb_connection;
-
-SELECT bio, image FROM users WHERE username = 'kienboec'

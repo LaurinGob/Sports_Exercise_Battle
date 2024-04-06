@@ -14,7 +14,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
         public UserData QueryReturn { get; private set; } = new UserData();
         public DatabaseGetUserInfo(string username) : base() 
         {
-            string queryString = "SELECT bio, image FROM users WHERE username = @username";
+            string queryString = "SELECT bio, image, profileName FROM users WHERE username = @username";
 
             using (var cmd = new NpgsqlCommand(queryString, this.conn))
             {
@@ -27,21 +27,9 @@ namespace Sports_Exercise_Battle.DATAACCESS
                     {
                         while (reader.Read())
                         {
-                            string view_bio = "";
-                            string view_image = "";
-
-                            if (!reader.IsDBNull(reader.GetOrdinal("bio")))
-                            {
-                                view_bio = reader.GetString(reader.GetOrdinal("bio"));
-                            }
-                            if (!reader.IsDBNull(reader.GetOrdinal("image")))
-                            {
-                                view_image = reader.GetString(reader.GetOrdinal("image"));
-                            }
-                            
-                            QueryReturn.Name = username;
-                            QueryReturn.Bio = view_bio;
-                            QueryReturn.Image = view_image;
+                            QueryReturn.Bio = reader.GetString(reader.GetOrdinal("bio"));
+                            QueryReturn.Image = reader.GetString(reader.GetOrdinal("image"));
+                            QueryReturn.Name = reader.GetString(reader.GetOrdinal("profileName"));
                         }
                     }
                     conn.Close();
