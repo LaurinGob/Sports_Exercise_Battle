@@ -20,23 +20,33 @@ namespace Sports_Exercise_Battle.SEB
             else if (rq.Method == HttpMethod.GET)
             {
                 // check if /users/ or /users/*
-                if (rq.Path[2] == null)
-                {
-                    // BLL: get Users from database
-                    this.GetUser(rq, rs);
-                } else if (rq.Path[2] != null)
+                if (rq.Path[2] != null)
                 {
                     // BLL: if username was given
 
                     // authenticate
-                    DatabaseAuthenticate auth = new DatabaseAuthenticate(rq.Path[2], rq.Headers["Authorization"]);
-                    if (auth.authenticated)
+                    try
                     {
-                        Console.WriteLine("Welcome user!");
-                    } else
-                    {
-                        Console.WriteLine("Crap");
+                        DatabaseAuthenticate auth = new DatabaseAuthenticate(rq.Path[2], rq.Headers["Authorization"]);
+                        if (auth.authenticated)
+                        {
+                            // access username stats
+                            //this.GetUser(rq, rs);
+                        }
+                        else
+                        {
+                            // write something
+                            
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error in UsersEndpoint: " + ex.Message);
+                        return false;
+                    }
+                } else
+                {
+                    return false;
                 }
                 
                 return true;
@@ -64,14 +74,15 @@ namespace Sports_Exercise_Battle.SEB
                 rs.Headers.Add("Content-Type", "text/html");
             }
         }
-        public void GetUser(HttpRequest rq, HttpResponse rs)
+
+        public void GetUserInfo(HttpRequest rq, HttpResponse rs)
         {
             try
             {
                 var user = JsonSerializer.Deserialize<User>(rq.Content ?? "");
                 Console.WriteLine(user);
                 //DatabaseGetUser dbContent = new DatabaseGetUser(user.Username);
-            } 
+            }
             catch (Exception e)
             {
                 Console.WriteLine("Error in UsersEndpoint: " + e);

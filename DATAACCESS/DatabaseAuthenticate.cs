@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
     public class DatabaseAuthenticate : BCDatabaseQuery
     {
         public bool authenticated { get; private set; } = false;
+
         public DatabaseAuthenticate(string username, string tokenString) : base()
         {
             // isolate the token string
@@ -28,29 +30,42 @@ namespace Sports_Exercise_Battle.DATAACCESS
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.HasRows)
                         {
-                            string view_userToken = reader.GetString(reader.GetOrdinal("userToken"));
-                            if (token == view_userToken)
+                            while (reader.Read())
                             {
-                                authenticated = true;
-                                Console.WriteLine("Authenticated!");
-                            } else
-                            {
-                                authenticated = false;
-                                Console.WriteLine("not Authenticated!");
+                                string view_userToken = reader.GetString(reader.GetOrdinal("userToken"));
+                                if (token == view_userToken)
+                                {
+                                    authenticated = true;
+                                    Console.WriteLine("Authenticated!");
+                                    conn.Close();
+                                    break;
+                                }
+                                else
+                                {
+                                    authenticated = false;
+                                    Console.WriteLine("Not Authenticated!");
+                                }
                             }
+                        } 
+                        else 
+                        {
+                            authenticated = false;
+                            throw new Exception("User not found");
                         }
                     }
-                    conn.Close();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error in DatabaseAuthenticate: " + ex.Message);
                     throw;
                 }
+                finally
+                {
+                    conn.Close(); // Ensure the connection is always closed
+                }
             }
-
         }
 
         private string IsolateToken(string tokenString)
