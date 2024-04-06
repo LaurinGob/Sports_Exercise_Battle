@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using Sports_Exercise_Battle.SEB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace Sports_Exercise_Battle.DATAACCESS
 {
-    public class DatabaseGetUser : BCDatabaseQuery, IDatabaseQuery
+    public class DatabaseGetUserInfo : BCDatabaseQuery, IDatabaseQuery
     {
-        public DatabaseGetUser(string username) : base() 
+        public UserData data { get; private set; } = new UserData();
+        public DatabaseGetUserInfo(string username) : base() 
         {
             string queryString = "SELECT * FROM users WHERE username = @value1";
 
@@ -36,7 +38,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error in DatabaseGetUser: " + ex.Message);
+                    Console.WriteLine("Error in DatabaseGetUserInfo: " + ex.Message);
 
                 }
             }
