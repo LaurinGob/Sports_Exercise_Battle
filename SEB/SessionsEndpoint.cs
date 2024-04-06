@@ -27,17 +27,17 @@ namespace Sports_Exercise_Battle.SEB
             try
             {
                 var userCredentials = JsonSerializer.Deserialize<User>(rq.Content ?? "");
-                // db access check passwort
+                // db access check password
                 DatabaseLogin login = new DatabaseLogin(userCredentials);
                 rs.ResponseCode = 201;
-                rs.ResponseMessage = "OK";
+                rs.ResponseMessage = "Created";
                 rs.Content = "<html><body>Successfully logged in!</body></html>";
-                rs.Headers.Add("Content-Type", "text/html");
+                rs.Headers.Add("Content-Type", "application/json");
             }
             catch (Exception)
             {
                 rs.ResponseCode = 401;
-                rs.ResponseMessage = "OK";
+                rs.ResponseMessage = "Unauthorized";
                 rs.Content = "<html><body>Invalid username/password!</body></html>";
                 rs.Headers.Add("Content-Type", "text/html");
             }

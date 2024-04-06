@@ -30,13 +30,18 @@ namespace Sports_Exercise_Battle.SEB
                         DatabaseAuthenticate auth = new DatabaseAuthenticate(rq.Path[2], rq.Headers["Authorization"]);
                         if (auth.authenticated)
                         {
-                            // access username stats
-                            //this.GetUser(rq, rs);
+                            GetUserInfo
+                            rs.ResponseCode = 200;
+                            rs.ResponseMessage = "OK";
+                            rs.Content = "<html><body>something</body></html>";
+                            rs.Headers.Add("Content-Type", "text/html");
                         }
                         else
                         {
-                            // write something
-                            
+                            rs.ResponseCode = 401;
+                            rs.ResponseMessage = "Unauthorized";
+                            rs.Content = "<html><body>Access token is missing or invalid</body></html>";
+                            rs.Headers.Add("Content-Type", "text/html");
                         }
                     }
                     catch (Exception ex)
@@ -62,14 +67,14 @@ namespace Sports_Exercise_Battle.SEB
                 DatabaseCreateUser dbWrite = new DatabaseCreateUser(user);
 
                 rs.ResponseCode = 201;
-                rs.ResponseMessage = "OK";
+                rs.ResponseMessage = "Created";
                 rs.Content = "<html><body>User created!</body></html>";
                 rs.Headers.Add("Content-Type", "text/html");
             }
             catch (Exception)
             {
                 rs.ResponseCode = 409;
-                rs.ResponseMessage = "OK";
+                rs.ResponseMessage = "Conflict";
                 rs.Content = "<html><body>User already exists!</body></html>";
                 rs.Headers.Add("Content-Type", "text/html");
             }
@@ -87,7 +92,7 @@ namespace Sports_Exercise_Battle.SEB
             {
                 Console.WriteLine("Error in UsersEndpoint: " + e);
                 rs.ResponseCode = 400;
-                rs.ResponseMessage = "OK";
+                rs.ResponseMessage = "Bad Request";
             }
         }
     }

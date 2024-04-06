@@ -35,11 +35,11 @@ namespace Sports_Exercise_Battle.DATAACCESS
                             while (reader.Read())
                             {
                                 string view_userToken = reader.GetString(reader.GetOrdinal("userToken"));
+                                // authenticate against database token
                                 if (token == view_userToken)
                                 {
                                     authenticated = true;
                                     Console.WriteLine("Authenticated!");
-                                    conn.Close();
                                     break;
                                 }
                                 else
@@ -47,6 +47,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                                     authenticated = false;
                                     Console.WriteLine("Not Authenticated!");
                                 }
+                                conn.Close();
                             }
                         } 
                         else 
