@@ -28,4 +28,4 @@ CREATE TABLE  IF NOT EXISTS history (
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO seb_connection;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO seb_connection;
 
---SELECT * FROM users;
+SELECT bio, image FROM users WHERE username = 'kienboec'

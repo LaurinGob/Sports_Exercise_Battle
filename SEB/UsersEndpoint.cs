@@ -33,7 +33,6 @@ namespace Sports_Exercise_Battle.SEB
                             GetUserInfo(rq, rs);
                             rs.ResponseCode = 200;
                             rs.ResponseMessage = "OK";
-                            rs.Content = "<html><body>something</body></html>";
                             rs.Headers.Add("Content-Type", "text/html");
                         }
                         else
@@ -84,7 +83,8 @@ namespace Sports_Exercise_Battle.SEB
         {
             try
             { 
-                //DatabaseGetUser dbContent = new DatabaseGetUser(user.Username);
+                DatabaseGetUserInfo dbContent = new DatabaseGetUserInfo(rq.Path[2]);
+                rs.Content = JsonSerializer.Serialize<UserData>(dbContent.QueryReturn);
             }
             catch (Exception e)
             {
