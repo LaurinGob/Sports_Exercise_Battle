@@ -30,7 +30,7 @@ namespace Sports_Exercise_Battle.SEB
                         DatabaseAuthenticate auth = new DatabaseAuthenticate(rq.Path[2], rq.Headers["Authorization"]);
                         if (auth.authenticated)
                         {
-                            GetUserInfo
+                            GetUserInfo(rq, rs);
                             rs.ResponseCode = 200;
                             rs.ResponseMessage = "OK";
                             rs.Content = "<html><body>something</body></html>";
@@ -83,14 +83,12 @@ namespace Sports_Exercise_Battle.SEB
         public void GetUserInfo(HttpRequest rq, HttpResponse rs)
         {
             try
-            {
-                var user = JsonSerializer.Deserialize<User>(rq.Content ?? "");
-                Console.WriteLine(user);
+            { 
                 //DatabaseGetUser dbContent = new DatabaseGetUser(user.Username);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error in UsersEndpoint: " + e);
+                Console.WriteLine("Error in GetUserInfo: " + e);
                 rs.ResponseCode = 400;
                 rs.ResponseMessage = "Bad Request";
             }
