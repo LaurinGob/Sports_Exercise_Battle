@@ -26,12 +26,13 @@ namespace Sports_Exercise_Battle.SEB
                     this.GetUser(rq, rs);
                 } else if (rq.Path[2] != null)
                 {
-                    // todo get token from db
-                    // extract token
-                    string token = rq.Headers["Authorization"].Replace("Basic ", "").Replace("-sebToken", "").Trim();
-                    if (token == rq.Path[2])
+                    // BLL: if username was given
+
+                    // authenticate
+                    DatabaseAuthenticate auth = new DatabaseAuthenticate(rq.Path[2], rq.Headers["Authorization"]);
+                    if (auth.authenticated)
                     {
-                        Console.WriteLine("Login Successful");
+                        Console.WriteLine("Welcome user!");
                     } else
                     {
                         Console.WriteLine("Crap");
