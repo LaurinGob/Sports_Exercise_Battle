@@ -25,6 +25,14 @@ CREATE TABLE  IF NOT EXISTS history (
     recordEntry BOOL NOT NULL
 );
 
+-- create view for elo and total count of all users
+CREATE VIEW get_stats AS
+SELECT u.username, u.userelo, SUM(h.count) AS totalcount FROM users AS u
+LEFT JOIN history AS h ON u.user_id = h.fk_user_id
+GROUP BY 1, 2;
+
+SELECT * FROM get_stats WHERE username = 'kienboec';
+
 -- grant permissions to seb_connection for all created tables
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO seb_connection;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO seb_connection;
