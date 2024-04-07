@@ -13,10 +13,15 @@ namespace Sports_Exercise_Battle
 
             // ===== I. Start the HTTP-Server =====
             HttpServer httpServer = new HttpServer(IPAddress.Any, 10001);
+
+            // register endpoints
             httpServer.RegisterEndpoint("users", new UsersEndpoint());
             httpServer.RegisterEndpoint("sessions", new SessionsEndpoint());
             //httpServer.RegisterEndpoint("stats", new StatsEndpoint()); //TODO: add after adding sessions
             httpServer.RegisterEndpoint("score", new ScoreEndpoint());
+
+            // instantiate singleton sessionmanager
+            BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
 
             httpServer.Run();
 
