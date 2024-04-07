@@ -71,6 +71,7 @@ namespace Sports_Exercise_Battle.SEB
                             rs.ResponseMessage = "OK";
                             rs.Headers.Add("Content-Type", "text/html");
                             rs.Content = "<html><body>User successfully updated</body></html>";
+                            return true;
                         }
                         else
                         {
@@ -78,6 +79,7 @@ namespace Sports_Exercise_Battle.SEB
                             rs.ResponseMessage = "Unauthorized";
                             rs.Content = "<html><body>Access token is missing or invalid</body></html>";
                             rs.Headers.Add("Content-Type", "text/html");
+                            return true;
                         }
                     }
                     catch (Exception ex)
@@ -135,9 +137,18 @@ namespace Sports_Exercise_Battle.SEB
 
         public void ChangeUserInfo(HttpRequest rq, HttpResponse rs)
         {
-            // deserialize and insert into db
-            var userData = JsonSerializer.Deserialize<UserData>(rq.Content ?? "");
-            Console.WriteLine("schnidl");
+            try
+            {
+                var userData = JsonSerializer.Deserialize<UserData>(rq.Content ?? "");
+                DatabaseChangeUserInfo dbInsert = new DatabaseChangeUserInfo(userData, rq.Path[2]);
+            }
+            catch (Exception)
+            {
+                rs.ResponseCode = 409;
+                rs.ResponseMessage = "Conflict";
+                rs.Content = "<html><body>User already exists!</body></html>";
+                rs.Headers.Add("Content-Type", "text/html");
+            }
         }
     }
 }
