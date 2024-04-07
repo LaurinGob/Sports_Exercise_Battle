@@ -47,11 +47,7 @@ namespace Sports_Exercise_Battle.SEB
                         Console.WriteLine("Error in UsersEndpoint GET: " + ex.Message);
                         return false;
                     }
-                } else
-                {
-                    return false;
-                }
-                
+                } else { return false; }
                 return true;
             }
             else if (rq.Method == HttpMethod.PUT)
@@ -60,40 +56,10 @@ namespace Sports_Exercise_Battle.SEB
                 if (rq.Path[2] != null)
                 {
                     // BLL: if username was given
-                    // authenticate
-                    try
-                    {
-                        DatabaseAuthenticate auth = new DatabaseAuthenticate(rq.Path[2], rq.Headers["Authorization"]);
-                        if (auth.authenticated)
-                        {
-                            ChangeUserInfo(rq, rs);
-                            rs.ResponseCode = 200;
-                            rs.ResponseMessage = "OK";
-                            rs.Headers.Add("Content-Type", "text/html");
-                            rs.Content = "<html><body>User successfully updated</body></html>";
-                            return true;
-                        }
-                        else
-                        {
-                            rs.ResponseCode = 401;
-                            rs.ResponseMessage = "Unauthorized";
-                            rs.Content = "<html><body>Access token is missing or invalid</body></html>";
-                            rs.Headers.Add("Content-Type", "text/html");
-                            return true;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error in UsersEndpoint PUT: " + ex.Message);
-                        return false;
-                    }
+                    ChangeUserInfo(rq, rs);
+                    return true;
                 }
-                else
-                {
-                    return false;
-                }
-
-                return true;
+                else { return false; }
             }
             return false; // if method is not "GET", "POST" or "PUT"
         }
@@ -137,16 +103,31 @@ namespace Sports_Exercise_Battle.SEB
 
         public void ChangeUserInfo(HttpRequest rq, HttpResponse rs)
         {
-            try
+            DatabaseAuthenticate auth = new DatabaseAuthenticate(rq.Path[2], rq.Headers["Authorization"]);
+            if (auth.authenticated)
             {
-                var userData = JsonSerializer.Deserialize<UserData>(rq.Content ?? "");
-                DatabaseChangeUserInfo dbInsert = new DatabaseChangeUserInfo(userData, rq.Path[2]);
+                try
+                {
+                    var userData = JsonSerializer.Deserialize<UserData>(rq.Content ?? "");
+                    DatabaseChangeUserInfo dbInsert = new DatabaseChangeUserInfo(userData, rq.Path[2]);
+                    rs.ResponseCode = 200;
+                    rs.ResponseMessage = "OK";
+                    rs.Headers.Add("Content-Type", "text/html");
+                    rs.Content = "<html><body>User successfully updated</body></html>";
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error in GetUserInfo: " + e);
+                    rs.ResponseCode = 400;
+                    rs.ResponseMessage = "Bad Request";
+                    throw;
+                }
             }
-            catch (Exception)
+            else
             {
-                rs.ResponseCode = 409;
-                rs.ResponseMessage = "Conflict";
-                rs.Content = "<html><body>User already exists!</body></html>";
+                rs.ResponseCode = 401;
+                rs.ResponseMessage = "Unauthorized";
+                rs.Content = "<html><body>Access token is missing or invalid</body></html>";
                 rs.Headers.Add("Content-Type", "text/html");
             }
         }
