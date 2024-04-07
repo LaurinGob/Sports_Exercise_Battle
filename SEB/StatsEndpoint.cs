@@ -16,8 +16,9 @@ namespace Sports_Exercise_Battle.SEB
         {
             if (rq.Method == HttpMethod.GET)
             {
-                GetUserStats(rq, rs);
-                return true;
+                //GetUserStats(rq, rs);
+                //return true;
+                return false; // TODO: continue after implementing sessions
             }
             return false; // if method is other than get
         }
