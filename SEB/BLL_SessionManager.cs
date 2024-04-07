@@ -25,8 +25,11 @@ namespace Sports_Exercise_Battle.SEB
             OpenSessions.Add(session);
         }
 
-        public string FindSessionByToken(string token)
+        public string FindSessionByToken(string tokenString)
         {
+            // strip first part of token
+            string token = IsolateToken(tokenString);
+
             // finds session by token
             foreach (Session session in OpenSessions) {
                 if (session.UserToken == token) return session.Username;
@@ -42,6 +45,11 @@ namespace Sports_Exercise_Battle.SEB
                 if (session.Username == username) return session.UserToken;
             }
             return null;
+        }
+
+        private string IsolateToken(string tokenString)
+        {
+            return tokenString.Replace("Basic ", "").Trim();
         }
     }
 }
