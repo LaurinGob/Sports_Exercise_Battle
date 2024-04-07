@@ -18,8 +18,13 @@ namespace Sports_Exercise_Battle.SEB
             {
                 GetUserHistory(rq, rs);
                 return true;
+            } else if (rq.Method == HttpMethod.POST)
+            {
+                //NewHistoryEntry(rq, rs);
+                //return true;
+                return false;
             }
-            return false; // if method is other than post
+            return false; // if method is other than post or get
         }
 
         public void GetUserHistory(HttpRequest rq, HttpResponse rs)
