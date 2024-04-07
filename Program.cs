@@ -15,7 +15,8 @@ namespace Sports_Exercise_Battle
             HttpServer httpServer = new HttpServer(IPAddress.Any, 10001);
             httpServer.RegisterEndpoint("users", new UsersEndpoint());
             httpServer.RegisterEndpoint("sessions", new SessionsEndpoint());
-            httpServer.RegisterEndpoint("stats", new StatsEndpoint());
+            //httpServer.RegisterEndpoint("stats", new StatsEndpoint()); //TODO: add after adding sessions
+            httpServer.RegisterEndpoint("score", new ScoreEndpoint());
 
             httpServer.Run();
 

@@ -26,16 +26,15 @@ namespace Sports_Exercise_Battle.SEB
         {
             try
             {
-                var userCredentials = JsonSerializer.Deserialize<User>(rq.Content ?? "");
-                // db access check password
-                // DatabaseGetUserScore score = new DatabaseGetUserScore(userCredentials);
+                DatabaseGetScore score = new DatabaseGetScore();
                 rs.ResponseCode = 200;
                 rs.ResponseMessage = "OK";
-                // rs.Content = JsonSerializer.Serialize<UserScore>(stats.UserScore);
+                rs.Content = JsonSerializer.Serialize<List<UserStats>>(score.QueryReturn);
                 rs.Headers.Add("Content-Type", "application/json");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("Error in ScoreEndpoint: " + ex.Message);
                 rs.ResponseCode = 401;
                 rs.ResponseMessage = "Unauthorized";
                 rs.Content = "<html><body>Invalid Username/Password</body></html>";
