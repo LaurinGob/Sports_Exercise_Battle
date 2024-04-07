@@ -16,13 +16,13 @@ namespace Sports_Exercise_Battle.SEB
         {
             if (rq.Method == HttpMethod.POST)
             {
-                LoginUsers(rq, rs);
+                GetUserInfo(rq, rs);
                 return true;
             }
             return false; // if method is other than post
         }
 
-        public void LoginUsers(HttpRequest rq, HttpResponse rs)
+        public void GetUserInfo(HttpRequest rq, HttpResponse rs)
         {
             try
             {
