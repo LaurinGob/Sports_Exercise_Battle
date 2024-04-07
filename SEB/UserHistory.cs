@@ -9,8 +9,7 @@ namespace Sports_Exercise_Battle.SEB
     public class UserHistory
     {
         public string Name { get; set; } = "";
-        public string ExerciseType { get; set; } = "";
-        public TimeSpan Duration { get; set; } = TimeSpan.FromSeconds(1);
+        public int DurationInSeconds { get; set; } = 0;
         public int Count { get; set; } = 0;
     }
 }

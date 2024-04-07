@@ -20,9 +20,8 @@ namespace Sports_Exercise_Battle.SEB
                 return true;
             } else if (rq.Method == HttpMethod.POST)
             {
-                //NewHistoryEntry(rq, rs);
-                //return true;
-                return false;
+                NewHistoryEntry(rq, rs);
+                return true;
             }
             return false; // if method is other than post or get
         }
@@ -44,7 +43,38 @@ namespace Sports_Exercise_Battle.SEB
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in ScoreEndpoint: " + ex.Message);
+                Console.WriteLine("Error in HistoryEndpoint GET: " + ex.Message);
+                rs.ResponseCode = 401;
+                rs.ResponseMessage = "Unauthorized";
+                rs.Content = "<html><body>Access token is missing or invalid</body></html>";
+                rs.Headers.Add("Content-Type", "text/html");
+            }
+        }
+
+        public void NewHistoryEntry(HttpRequest rq, HttpResponse rs)
+        {
+            try
+            {
+                // check authentification
+                BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
+                string username = SessionManager.FindSessionByToken(rq.Headers["Authorization"]);
+                if (username == null) { throw new Exception("User not logged in"); }
+
+                // get userid
+                int user_id = SessionManager.GetUserID(rq.Headers["Authorization"]);
+                if (user_id == 0) { throw new Exception("User not logged in"); }
+
+                var userHistory = JsonSerializer.Deserialize<UserHistory>(rq.Content ?? "");
+                DatabaseCreateHistory dbWrite = new DatabaseCreateHistory(userHistory, user_id);
+
+                rs.ResponseCode = 201;
+                rs.ResponseMessage = "Created";
+                rs.Content = "<html><body>History entry added!</body></html>";
+                rs.Headers.Add("Content-Type", "text/html");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in HistoryEndpoint POST: " + ex.Message);
                 rs.ResponseCode = 401;
                 rs.ResponseMessage = "Unauthorized";
                 rs.Content = "<html><body>Access token is missing or invalid</body></html>";

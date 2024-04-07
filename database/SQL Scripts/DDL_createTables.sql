@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS history (
     entryDateTime TIMESTAMP DEFAULT current_timestamp,
     exerciseType VARCHAR(50) NOT NULL,
     count INTEGER NOT NULL,
-    duration INTERVAL NOT NULL,
-    recordEntry BOOL NOT NULL
+    duration INTEGER NOT NULL,
+    recordEntry BOOL DEFAULT false
 );
 
 -- create view for elo and total count (intended for individual user)

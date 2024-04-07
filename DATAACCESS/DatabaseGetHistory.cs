@@ -26,9 +26,8 @@ namespace Sports_Exercise_Battle.DATAACCESS
                         while (reader.Read())
                         {
                             UserHistory row = new UserHistory();
-                            row.Name = reader.GetString(reader.GetOrdinal("username"));
-                            row.ExerciseType = reader.GetString(reader.GetOrdinal("exerciseType"));
-                            row.Duration = reader.GetTimeSpan(reader.GetOrdinal("duration"));
+                            row.Name = reader.GetString(reader.GetOrdinal("exerciseType"));
+                            row.DurationInSeconds = reader.GetInt32(reader.GetOrdinal("duration"));
                             row.Count = reader.GetInt32(reader.GetOrdinal("count"));
 
                             QueryReturn.Add(row);
