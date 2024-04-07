@@ -10,28 +10,28 @@ using Sports_Exercise_Battle.HTTP;
 
 namespace Sports_Exercise_Battle.SEB
 {
-    internal class ScoreEndpoint : IHttpEndpoint
+    public class ScoreEndpoint : IHttpEndpoint
     {
         public bool HandleRequest(HttpRequest rq, HttpResponse rs)
         {
-            if (rq.Method == HttpMethod.POST)
+            if (rq.Method == HttpMethod.GET)
             {
-                GetUserInfo(rq, rs);
+                GetUserScore(rq, rs);
                 return true;
             }
             return false; // if method is other than post
         }
 
-        public void GetUserInfo(HttpRequest rq, HttpResponse rs)
+        public void GetUserScore(HttpRequest rq, HttpResponse rs)
         {
             try
             {
                 var userCredentials = JsonSerializer.Deserialize<User>(rq.Content ?? "");
                 // db access check password
-                DatabaseLogin login = new DatabaseLogin(userCredentials);
+                // DatabaseGetUserScore score = new DatabaseGetUserScore(userCredentials);
                 rs.ResponseCode = 200;
                 rs.ResponseMessage = "OK";
-                rs.Content = JsonSerializer.Serialize(login.userToken);
+                // rs.Content = JsonSerializer.Serialize<UserScore>(stats.UserScore);
                 rs.Headers.Add("Content-Type", "application/json");
             }
             catch (Exception)
