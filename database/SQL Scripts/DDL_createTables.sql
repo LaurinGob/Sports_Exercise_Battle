@@ -1,10 +1,11 @@
+-- delete all users > this cascades to history
 DELETE FROM users WHERE TRUE;
 
+-- drop all views/tables
 DROP VIEW IF EXISTS get_stats;
 DROP VIEW IF EXISTS get_score;
 DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS users;
-
 
 -- create users table
 CREATE TABLE IF NOT EXISTS users (
@@ -28,13 +29,13 @@ CREATE TABLE IF NOT EXISTS history (
     recordEntry BOOL NOT NULL
 );
 
--- create view for elo and total count of all users
+-- create view for elo and total count (intended for individual user)
 CREATE VIEW get_stats AS
 SELECT u.username, u.userelo, SUM(h.count) AS totalcount FROM users AS u
 LEFT JOIN history AS h ON u.user_id = h.fk_user_id
 GROUP BY 1, 2 order by 2, 3 desc;
 
--- create view for elo and total
+-- create view for elo and total count of all users
 CREATE VIEW get_score AS
 SELECT u.profileName, u.userelo, SUM(h.count) AS totalcount FROM users AS u
 LEFT JOIN history AS h ON u.user_id = h.fk_user_id
