@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS history (
     history_id SERIAL PRIMARY KEY,
     fk_user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
     entryDateTime TIMESTAMP DEFAULT current_timestamp,
+    exerciseType VARCHAR(50) NOT NULL,
     count INTEGER NOT NULL,
     duration INTERVAL NOT NULL,
     recordEntry BOOL NOT NULL
@@ -44,7 +45,7 @@ GROUP BY 1, 2 ORDER BY 2, 3 DESC;
 
 -- create view for history entries
 CREATE VIEW get_history AS
-SELECT u.username, h.count, h.duration FROM users AS u
+SELECT u.username, h.exerciseType, h.count, h.duration FROM users AS u
 INNER JOIN history AS h ON u.user_id = h.fk_user_id
 ORDER BY 2, 3 DESC;
 
