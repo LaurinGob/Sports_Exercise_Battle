@@ -9,7 +9,7 @@ using Sports_Exercise_Battle.SEB;
 
 namespace Sports_Exercise_Battle.DATAACCESS
 {
-    public class DatabaseCreateUser : BCDatabaseQuery, IDatabaseQuery
+    public class DatabaseCreateUser : BCDatabaseQuery
     {
         public DatabaseCreateUser(User userCredentials) : base() 
         {
@@ -37,11 +37,6 @@ namespace Sports_Exercise_Battle.DATAACCESS
                     throw;
                 }
             }
-        }
-
-        public void ExecuteQuery()
-        {
-            Console.WriteLine("DatabaseGetUser was called");
         }
     }
 }

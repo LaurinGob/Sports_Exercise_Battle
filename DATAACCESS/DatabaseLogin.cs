@@ -9,9 +9,9 @@ using Sports_Exercise_Battle.SEB;
 
 namespace Sports_Exercise_Battle.DATAACCESS
 {
-    public class DatabaseLogin : BCDatabaseQuery, IDatabaseQuery
+    public class DatabaseLogin : BCDatabaseQuery
     {
-        public DatabaseLogin(User userCredentials) {
+        public DatabaseLogin(User userCredentials) : base() {
             // SQL Query
             string queryString = "SELECT * FROM users WHERE username = @value1";
 
@@ -49,11 +49,6 @@ namespace Sports_Exercise_Battle.DATAACCESS
                     throw;
                 }
             }
-        }
-
-        public void ExecuteQuery()
-        {
-            Console.WriteLine("DatabaseGetUser was called");
         }
     }
 }
