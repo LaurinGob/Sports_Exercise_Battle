@@ -1,7 +1,10 @@
 DELETE FROM users WHERE TRUE;
 
-DROP TABLE history;
-DROP TABLE users;
+DROP VIEW IF EXISTS get_stats;
+DROP VIEW IF EXISTS get_score;
+DROP TABLE IF EXISTS history;
+DROP TABLE IF EXISTS users;
+
 
 -- create users table
 CREATE TABLE IF NOT EXISTS users (
@@ -16,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- create history table with foreign key to users
-CREATE TABLE  IF NOT EXISTS history (
+CREATE TABLE IF NOT EXISTS history (
     history_id SERIAL PRIMARY KEY,
     fk_user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
     entryDateTime TIMESTAMP DEFAULT current_timestamp,
@@ -29,10 +32,15 @@ CREATE TABLE  IF NOT EXISTS history (
 CREATE VIEW get_stats AS
 SELECT u.username, u.userelo, SUM(h.count) AS totalcount FROM users AS u
 LEFT JOIN history AS h ON u.user_id = h.fk_user_id
-GROUP BY 1, 2;
+GROUP BY 1, 2 order by 2, 3 desc;
 
-SELECT * FROM get_stats WHERE username = 'kienboec';
+-- create view for elo and total
+CREATE VIEW get_score AS
+SELECT u.profileName, u.userelo, SUM(h.count) AS totalcount FROM users AS u
+LEFT JOIN history AS h ON u.user_id = h.fk_user_id
+GROUP BY 1, 2 order by 2, 3 desc;
 
 -- grant permissions to seb_connection for all created tables
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO seb_connection;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO seb_connection;
+
