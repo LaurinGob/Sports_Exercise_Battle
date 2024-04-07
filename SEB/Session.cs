@@ -8,10 +8,12 @@ namespace Sports_Exercise_Battle.SEB
 {
     public class Session
     {
+        public int UserID { get; set; }
         public string Username { get; set; }
         public string UserToken { get; set; }
-        public Session(string username, string token)
+        public Session(int user_id, string username, string token)
         {
+            UserID = user_id;
             Username = username;
             UserToken = token;
         }

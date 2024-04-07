@@ -37,7 +37,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                                 Console.WriteLine("Login Successful!");
                                 // add new session to session manager
                                 BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
-                                SessionManager.NewSession(view_username, userToken);
+                                SessionManager.NewSession(view_user_id, view_username, userToken);
                             } else
                             {
                                 throw new Exception("Login credentials not recognized");

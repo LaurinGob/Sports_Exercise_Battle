@@ -18,10 +18,10 @@ namespace Sports_Exercise_Battle.SEB
         // Add properties and methods as needed
         public List<Session> OpenSessions { get; private set; } = new List<Session>();
 
-        public void NewSession(string username, string token)
+        public void NewSession(int user_id, string username, string token)
         {
             // adds new session to session pool
-            Session session = new Session(username, token);
+            Session session = new Session(user_id, username, token);
             OpenSessions.Add(session);
         }
 
@@ -47,8 +47,20 @@ namespace Sports_Exercise_Battle.SEB
             return null;
         }
 
+        public int GetUserID(string tokenString)
+        {
+            string token = IsolateToken(tokenString);
+            // finds userid by token
+            foreach (Session session in OpenSessions)
+            {
+                if (session.UserToken == token) return session.UserID;
+            }
+            return 0;
+        }
+
         private string IsolateToken(string tokenString)
         {
+            // helper function to isolate the token from the rest of the string
             return tokenString.Replace("Basic ", "").Trim();
         }
     }
