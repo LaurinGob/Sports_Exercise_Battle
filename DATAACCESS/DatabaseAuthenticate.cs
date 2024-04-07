@@ -47,7 +47,6 @@ namespace Sports_Exercise_Battle.DATAACCESS
                                     authenticated = false;
                                     Console.WriteLine("Not Authenticated!");
                                 }
-                                conn.Close();
                             }
                         } 
                         else 
@@ -71,7 +70,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
 
         private string IsolateToken(string tokenString)
         {
-            return tokenString.Replace("Basic ", "").Replace("-sebToken", "").Trim();
+            return tokenString.Replace("Basic ", "").Trim();
         }
     }
 }

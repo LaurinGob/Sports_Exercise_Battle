@@ -23,7 +23,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                 // Add parameters to the query
                 cmd.Parameters.AddWithValue("username", userCredentials.Username);
                 cmd.Parameters.AddWithValue("passwordHash", hashedPassword);
-                cmd.Parameters.AddWithValue("usertoken", userCredentials.Username);
+                cmd.Parameters.AddWithValue("usertoken", userCredentials.Username + "-sebToken");
 
                 try
                 {
