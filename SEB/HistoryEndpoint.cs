@@ -10,20 +10,20 @@ using Sports_Exercise_Battle.HTTP;
 
 namespace Sports_Exercise_Battle.SEB
 {
-    public class StatsEndpoint : IHttpEndpoint
+    public class HistoryEndpoint : IHttpEndpoint
     {
         public bool HandleRequest(HttpRequest rq, HttpResponse rs)
         {
             if (rq.Method == HttpMethod.GET)
             {
-                GetUserStats(rq, rs);
+                GetUserHistory(rq, rs);
                 return true;
             }
-            return false; // if method is other than get
+            return false; // if method is other than post
         }
 
-        public void GetUserStats(HttpRequest rq, HttpResponse rs)
-        { 
+        public void GetUserHistory(HttpRequest rq, HttpResponse rs)
+        {
             try
             {
                 // get session manager
@@ -31,15 +31,15 @@ namespace Sports_Exercise_Battle.SEB
                 string username = SessionManager.FindSessionByToken(rq.Headers["Authorization"]);
                 if (username == null) { throw new Exception("User not logged in"); }
 
-                DatabaseGetUserStats stats = new DatabaseGetUserStats(username);
+                DatabaseGetHistory score = new DatabaseGetHistory(username);
                 rs.ResponseCode = 200;
                 rs.ResponseMessage = "OK";
-                rs.Content = JsonSerializer.Serialize<UserStats>(stats.QueryReturn);
+                rs.Content = JsonSerializer.Serialize<List<UserHistory>>(score.QueryReturn);
                 rs.Headers.Add("Content-Type", "application/json");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in StatsEndpoint: " + ex.Message);
+                Console.WriteLine("Error in ScoreEndpoint: " + ex.Message);
                 rs.ResponseCode = 401;
                 rs.ResponseMessage = "Unauthorized";
                 rs.Content = "<html><body>Access token is missing or invalid</body></html>";
