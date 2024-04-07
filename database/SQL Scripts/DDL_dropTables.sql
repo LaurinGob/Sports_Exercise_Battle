@@ -1,4 +1,0 @@
-DELETE FROM users WHERE TRUE;
-
-DROP TABLE history;
-DROP TABLE users;
