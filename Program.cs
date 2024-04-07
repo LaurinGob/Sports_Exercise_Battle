@@ -17,7 +17,7 @@ namespace Sports_Exercise_Battle
             // register endpoints
             httpServer.RegisterEndpoint("users", new UsersEndpoint());
             httpServer.RegisterEndpoint("sessions", new SessionsEndpoint());
-            //httpServer.RegisterEndpoint("stats", new StatsEndpoint()); //TODO: add after adding sessions
+            httpServer.RegisterEndpoint("stats", new StatsEndpoint());
             httpServer.RegisterEndpoint("score", new ScoreEndpoint());
 
             // instantiate singleton sessionmanager

@@ -26,6 +26,11 @@ namespace Sports_Exercise_Battle.SEB
         {
             try
             {
+                // get session manager
+                BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
+                string username = SessionManager.FindSessionByToken(rq.Headers["Authorization"]);
+                if (username == null) { throw new Exception("User not logged in"); }
+
                 DatabaseGetScore score = new DatabaseGetScore();
                 rs.ResponseCode = 200;
                 rs.ResponseMessage = "OK";
@@ -37,7 +42,7 @@ namespace Sports_Exercise_Battle.SEB
                 Console.WriteLine("Error in ScoreEndpoint: " + ex.Message);
                 rs.ResponseCode = 401;
                 rs.ResponseMessage = "Unauthorized";
-                rs.Content = "<html><body>Invalid Username/Password</body></html>";
+                rs.Content = "<html><body>Access token is missing or invalid</body></html>";
                 rs.Headers.Add("Content-Type", "text/html");
             }
         }
