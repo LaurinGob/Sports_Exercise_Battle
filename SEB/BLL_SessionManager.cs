@@ -48,6 +48,19 @@ namespace Sports_Exercise_Battle.SEB
             return null;
         }
 
+        public string FindProfilenameByToken(string tokenString)
+        {
+            // strip first part of token
+            string token = IsolateToken(tokenString);
+
+            // finds session by token
+            foreach (Session session in OpenSessions)
+            {
+                if (session.UserToken == token) return session.ProfileName;
+            }
+            return null;
+        }
+
         public string FindTokenByUsername(string username)
         {
             // finds session by username
