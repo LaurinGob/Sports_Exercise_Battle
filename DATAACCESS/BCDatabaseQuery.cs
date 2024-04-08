@@ -16,7 +16,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                 {
                     // Open the connection
                     this.conn.Open();
-                    Console.WriteLine("Connected to PostgreSQL!");
+                    // Console.WriteLine("Connected to PostgreSQL!");
                 }
                 catch (Exception ex)
                 {
