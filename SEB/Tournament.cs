@@ -8,8 +8,8 @@ namespace Sports_Exercise_Battle.SEB
 {
     public class Tournament
     {
-        public bool active { get; set; } = true;
-        List<TournamentEntry> entries;
+        public bool active { get; private set; } = true;
+        public List<TournamentEntry> entries { get; private set; } = new List<TournamentEntry>();
 
         public Tournament() 
         {

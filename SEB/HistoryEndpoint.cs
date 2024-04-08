@@ -67,6 +67,13 @@ namespace Sports_Exercise_Battle.SEB
                 var userHistory = JsonSerializer.Deserialize<UserHistory>(rq.Content ?? "");
                 DatabaseCreateHistory dbWrite = new DatabaseCreateHistory(userHistory, user_id);
 
+                // enter entry into tournament
+                string profileName = SessionManager.FindProfilenameByToken(rq.Headers["Authorization"]);
+                if (profileName == null) { throw new Exception("User not logged in"); }
+
+                BLL_TournamentManager TournamentManager = BLL_TournamentManager.Instance;
+                TournamentManager.NewTournamentEntry(new TournamentEntry(userHistory, profileName));
+
                 rs.ResponseCode = 201;
                 rs.ResponseMessage = "Created";
                 rs.Content = "<html><body>History entry added!</body></html>";

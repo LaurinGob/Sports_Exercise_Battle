@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,12 +16,13 @@ namespace Sports_Exercise_Battle.SEB
 
         public static BLL_TournamentManager Instance => lazyInstance.Value;
 
-        List<Tournament> tournaments;
+        List<Tournament> tournaments = new List<Tournament>();
 
         public void NewTournamentEntry(TournamentEntry entry)
         {
             // adds new entry to tournament
             Tournament currentTournament = GetTournament();
+
             currentTournament.AddEntry(entry);
         }
 
@@ -35,6 +37,16 @@ namespace Sports_Exercise_Battle.SEB
             tournaments.Add(newTournament);
             Console.WriteLine("New Tournament started!");
             return newTournament;
+        }
+
+        public List<TournamentEntry> GetActiveTournamentEntries()
+        {
+            // returns the currently active tournament
+            foreach (Tournament joust in tournaments)
+            {
+                if (joust.active) { return joust.entries; }
+            }
+            return null;
         }
     }
 }
