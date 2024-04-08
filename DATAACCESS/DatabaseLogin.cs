@@ -11,7 +11,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
 {
     public class DatabaseLogin : BCDatabaseQuery
     {
-        public string userToken { get; private set; }
+        public string userToken { get; private set; } // needs to be public so it can be returned to user via HttpResponse
         public DatabaseLogin(User userCredentials) : base() {
             // SQL Query
             string queryString = "SELECT * FROM users WHERE username = @value1";
@@ -30,6 +30,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                             int view_user_id = reader.GetInt32(reader.GetOrdinal("user_id"));
                             string view_username = reader.GetString(reader.GetOrdinal("username"));
                             string view_passwordHash = reader.GetString(reader.GetOrdinal("passwordHash"));
+                            string view_profileName = reader.GetString(reader.GetOrdinal("profileName"));
                             userToken = reader.GetString(reader.GetOrdinal("userToken"));
 
                             // verify the received hash against provided password
@@ -37,7 +38,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                                 Console.WriteLine("Login Successful!");
                                 // add new session to session manager
                                 BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
-                                SessionManager.NewSession(view_user_id, view_username, userToken);
+                                SessionManager.NewSession(view_user_id, view_username, userToken, view_profileName);
                             } else
                             {
                                 throw new Exception("Login credentials not recognized");

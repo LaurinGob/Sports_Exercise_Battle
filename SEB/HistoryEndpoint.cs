@@ -32,7 +32,7 @@ namespace Sports_Exercise_Battle.SEB
             {
                 // get session manager
                 BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
-                string username = SessionManager.FindSessionByToken(rq.Headers["Authorization"]);
+                string username = SessionManager.FindUsernameByToken(rq.Headers["Authorization"]);
                 if (username == null) { throw new Exception("User not logged in"); }
 
                 DatabaseGetHistory score = new DatabaseGetHistory(username);
@@ -57,7 +57,7 @@ namespace Sports_Exercise_Battle.SEB
             {
                 // check authentification
                 BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
-                string username = SessionManager.FindSessionByToken(rq.Headers["Authorization"]);
+                string username = SessionManager.FindUsernameByToken(rq.Headers["Authorization"]);
                 if (username == null) { throw new Exception("User not logged in"); }
 
                 // get userid

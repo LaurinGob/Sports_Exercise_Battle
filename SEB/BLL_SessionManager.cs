@@ -36,7 +36,7 @@ namespace Sports_Exercise_Battle.SEB
             }
         }
 
-        public string FindSessionByToken(string tokenString)
+        public string FindUsernameByToken(string tokenString)
         {
             // strip first part of token
             string token = IsolateToken(tokenString);
@@ -48,7 +48,7 @@ namespace Sports_Exercise_Battle.SEB
             return null;
         }
 
-        public string FindSessionByName(string username)
+        public string FindTokenByUsername(string username)
         {
             // finds session by username
             foreach (Session session in OpenSessions)
