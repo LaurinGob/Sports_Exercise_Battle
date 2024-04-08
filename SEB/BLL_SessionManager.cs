@@ -15,7 +15,6 @@ namespace Sports_Exercise_Battle.SEB
 
         public static BLL_SessionManager Instance => lazyInstance.Value;
 
-        // Add properties and methods as needed
         public List<Session> OpenSessions { get; private set; } = new List<Session>();
 
         public void NewSession(int user_id, string username, string token)

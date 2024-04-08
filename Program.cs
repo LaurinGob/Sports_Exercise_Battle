@@ -21,9 +21,6 @@ namespace Sports_Exercise_Battle
             httpServer.RegisterEndpoint("score", new ScoreEndpoint());
             httpServer.RegisterEndpoint("history", new HistoryEndpoint());
 
-            // instantiate singleton sessionmanager
-            BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
-
             httpServer.Run();
 
         }
