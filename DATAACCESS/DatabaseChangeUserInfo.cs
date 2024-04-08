@@ -28,6 +28,11 @@ namespace Sports_Exercise_Battle.DATAACCESS
                 {
                     int rowsAffected = cmd.ExecuteNonQuery();
                     Console.WriteLine($"{rowsAffected} row(s) inserted successfully.");
+
+                    // update session with changed value of profile name
+                    BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
+                    SessionManager.UpdateSession(username, userData.Name);
+
                     conn.Close();
                 }
                 catch (Exception ex)

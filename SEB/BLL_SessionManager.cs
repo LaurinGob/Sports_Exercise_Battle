@@ -17,11 +17,23 @@ namespace Sports_Exercise_Battle.SEB
 
         public List<Session> OpenSessions { get; private set; } = new List<Session>();
 
-        public void NewSession(int user_id, string username, string token)
+        public void NewSession(int user_id, string username, string token, string profileName)
         {
             // adds new session to session pool
-            Session session = new Session(user_id, username, token);
+            Session session = new Session(user_id, username, token, profileName);
             OpenSessions.Add(session);
+        }
+
+        public void UpdateSession(string username, string profileName)
+        {
+            // finds session by username
+            foreach (Session session in OpenSessions)
+            {
+                if (session.Username == username)
+                {
+                    session.ProfileName = profileName;
+                }
+            }
         }
 
         public string FindSessionByToken(string tokenString)

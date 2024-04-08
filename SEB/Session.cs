@@ -11,11 +11,13 @@ namespace Sports_Exercise_Battle.SEB
         public int UserID { get; set; }
         public string Username { get; set; }
         public string UserToken { get; set; }
-        public Session(int user_id, string username, string token)
+        public string ProfileName { get; set; }
+        public Session(int user_id, string username, string token, string profileName)
         {
             UserID = user_id;
             Username = username;
             UserToken = token;
+            ProfileName = profileName;
         }
     }
 }
