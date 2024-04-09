@@ -39,12 +39,12 @@ namespace Sports_Exercise_Battle.SEB
             return newTournament;
         }
 
-        public List<TournamentEntry> GetActiveTournamentEntries()
+        public Tournament GetActiveTournamentEntries()
         {
             // returns the currently active tournament
             foreach (Tournament joust in tournaments)
             {
-                if (joust.active) { return joust.entries; }
+                if (joust.active) { return joust; }
             }
             return null;
         }

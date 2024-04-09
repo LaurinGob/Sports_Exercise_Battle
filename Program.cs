@@ -20,6 +20,7 @@ namespace Sports_Exercise_Battle
             httpServer.RegisterEndpoint("stats", new StatsEndpoint());
             httpServer.RegisterEndpoint("score", new ScoreEndpoint());
             httpServer.RegisterEndpoint("history", new HistoryEndpoint());
+            httpServer.RegisterEndpoint("tournament", new TournamentEndpoint());
 
             httpServer.Run();
 
