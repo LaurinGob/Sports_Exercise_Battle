@@ -34,7 +34,7 @@ namespace Sports_Exercise_Battle.SEB
                 // get and return tournament status
                 BLL_TournamentManager tournamentManager = BLL_TournamentManager.Instance;
 
-                Tournament currentTournament = tournamentManager.GetActiveTournamentEntries();
+                Tournament currentTournament = tournamentManager.GetLatestTournament();
 
                 if (currentTournament == null) {
                     rs.ResponseCode = 200;

@@ -31,22 +31,18 @@ namespace Sports_Exercise_Battle.SEB
             // returns running tournament or creates new one
             foreach (Tournament joust in tournaments)
             {
-                if (joust.active) { return joust; }
+                if (joust.Active) { return joust; }
             }
             Tournament newTournament = new Tournament();
             tournaments.Add(newTournament);
-            Console.WriteLine("New Tournament started!");
             return newTournament;
         }
 
-        public Tournament GetActiveTournamentEntries()
+        public Tournament GetLatestTournament()
         {
             // returns the currently active tournament
-            foreach (Tournament joust in tournaments)
-            {
-                if (joust.active) { return joust; }
-            }
-            return null;
+            if (!tournaments.Any()) return null;
+            return tournaments.Last();
         }
     }
 }
