@@ -26,7 +26,7 @@ namespace Sports_Exercise_Battle.SEB
         {
             try
             {
-                // get session manager
+                // authenticate
                 BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
                 string username = SessionManager.FindUsernameByToken(rq.Headers["Authorization"]);
                 if (username == null) { throw new Exception("User not logged in"); }
