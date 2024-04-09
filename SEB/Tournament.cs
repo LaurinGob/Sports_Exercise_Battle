@@ -10,9 +10,9 @@ namespace Sports_Exercise_Battle.SEB
     {
         public bool Active { get; private set; } = true;
         public DateTime TournamentStarted { get; private set; } = DateTime.Now;
+        public string FirstPlace { get; private set; } // the first in line
         public List<TournamentEntry> entries { get; private set; } = new List<TournamentEntry>();
-        public string Winner { get; private set; }
-
+        
         public Tournament() 
         {
             // starts timer that deactivates tournament after 2 minutes
@@ -31,8 +31,10 @@ namespace Sports_Exercise_Battle.SEB
 
         private void SortByWinner()
         {
+            // TODO: not working properly
+            // Sorts list based on highest count and adds first in line to firstplace 
             entries = entries.OrderBy(obj => obj.Count).ToList();
-            Winner = entries.First().ProfileName;
+            FirstPlace = entries.First().ProfileName;
         }
     }
 }
