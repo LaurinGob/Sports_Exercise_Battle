@@ -27,7 +27,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                 try
                 {
                     int rowsAffected = cmd.ExecuteNonQuery();
-                    Console.WriteLine($"{rowsAffected} row(s) inserted successfully.");
+                    Console.WriteLine($"{rowsAffected} row(s) updated successfully.");
 
                     // update session with changed value of profile name
                     BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
