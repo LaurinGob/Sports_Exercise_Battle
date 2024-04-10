@@ -55,21 +55,54 @@ namespace Sports_Exercise_Battle.SEB
 
         private void ConcludeTournament()
         {
+            // decide if there are multiple first places
+            int firstPlaceSum = Participants.First().Sum;
+            int numberOfWinners = 0;
+
+            foreach (Participant participant in Participants)
+            {
+                if (participant.Sum == firstPlaceSum)
+                {
+                    numberOfWinners++;
+                } else
+                {
+                    break;
+                }
+            }
+
+            // iterate over participants update winner with +2 all others with minus 1
+            if (numberOfWinners == 1)
+            {
+                foreach (Participant participant in Participants)
+                {
+                    if (participant.ProfileName == FirstPlace)
+                    {
+                        participant.Elo += 2;
+                    }
+                    else
+                    {
+                        participant.Elo -= 1;
+                    }
+                }
+            } else
+            {
+                for (int i = 0; i < Participants.Count; i++)
+                {
+                    if (numberOfWinners > 0)
+                    {
+                        Participants[i].Elo += 1;
+                        numberOfWinners--;
+                    } else
+                    {
+                        Participants[i].Elo -= 1;
+                    }
+                }
+            }
+            
+
             // using session manager to get the current elo
             BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
             string username;
-
-            // iterate over participants update winner with +2 all others with minus 1
-            foreach (Participant participant in Participants)
-            {
-                if (participant.ProfileName == FirstPlace)
-                {
-                    participant.Elo += 2;
-                } else
-                {
-                    participant.Elo -= 1;
-                }
-            }
 
             // insert elo in db
             foreach (Participant participant in Participants)
