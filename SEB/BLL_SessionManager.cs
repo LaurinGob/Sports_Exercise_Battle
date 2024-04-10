@@ -36,6 +36,18 @@ namespace Sports_Exercise_Battle.SEB
             }
         }
 
+        public void UpdateElo(string username, int elo)
+        {
+            // finds session by username
+            foreach (Session session in OpenSessions)
+            {
+                if (session.Username == username)
+                {
+                    session.Elo = elo;
+                }
+            }
+        }
+
         public string FindUsernameByToken(string tokenString)
         {
             // strip first part of token
