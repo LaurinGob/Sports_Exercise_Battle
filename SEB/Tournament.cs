@@ -86,6 +86,7 @@ namespace Sports_Exercise_Battle.SEB
                 }
             } else
             {
+                // incase of draws (works also with more than 2 winners!)
                 for (int i = 0; i < Participants.Count; i++)
                 {
                     if (numberOfWinners > 0)

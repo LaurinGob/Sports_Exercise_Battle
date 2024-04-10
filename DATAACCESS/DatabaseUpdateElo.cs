@@ -25,7 +25,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                 try
                 {
                     int rowsAffected = cmd.ExecuteNonQuery();
-                    Console.WriteLine($"{rowsAffected} row(s) inserted successfully.");
+                    Console.WriteLine($"{rowsAffected} row(s) updated successfully.");
 
                     conn.Close();
                 }
