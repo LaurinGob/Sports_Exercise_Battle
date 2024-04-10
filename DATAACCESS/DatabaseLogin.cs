@@ -32,13 +32,14 @@ namespace Sports_Exercise_Battle.DATAACCESS
                             string view_passwordHash = reader.GetString(reader.GetOrdinal("passwordHash"));
                             string view_profileName = reader.GetString(reader.GetOrdinal("profileName"));
                             userToken = reader.GetString(reader.GetOrdinal("userToken"));
+                            int view_elo = reader.GetInt32(reader.GetOrdinal("userELO"));
 
                             // verify the received hash against provided password
                             if (BCrypt.Net.BCrypt.Verify(userCredentials.Password, view_passwordHash)) {
                                 Console.WriteLine("Login Successful!");
                                 // add new session to session manager
                                 BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
-                                SessionManager.NewSession(view_user_id, view_username, userToken, view_profileName);
+                                SessionManager.NewSession(view_user_id, view_username, userToken, view_profileName, view_elo);
                             } else
                             {
                                 throw new Exception("Login credentials not recognized");

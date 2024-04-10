@@ -17,10 +17,10 @@ namespace Sports_Exercise_Battle.SEB
 
         public List<Session> OpenSessions { get; private set; } = new List<Session>();
 
-        public void NewSession(int user_id, string username, string token, string profileName)
+        public void NewSession(int user_id, string username, string token, string profileName, int elo)
         {
             // adds new session to session pool
-            Session session = new Session(user_id, username, token, profileName);
+            Session session = new Session(user_id, username, token, profileName, elo);
             OpenSessions.Add(session);
         }
 
