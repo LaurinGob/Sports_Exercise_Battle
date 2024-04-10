@@ -36,6 +36,31 @@ namespace Sports_Exercise_Battle.SEB
             }
         }
 
+        public int GetELO(string username)
+        {
+            // finds session by username
+            foreach (Session session in OpenSessions)
+            {
+                if (session.ProfileName == username)
+                {
+                    return session.Elo;
+                }
+            }
+            return 0;
+        }
+
+        public string GetUsername(string profileName)
+        {
+            foreach (Session session in OpenSessions)
+            {
+                if (session.ProfileName == profileName)
+                {
+                    return session.Username;
+                }
+            }
+            return "";
+        }
+
         public void UpdateElo(string username, int elo)
         {
             // finds session by username
@@ -43,7 +68,7 @@ namespace Sports_Exercise_Battle.SEB
             {
                 if (session.Username == username)
                 {
-                    session.Elo = elo;
+                    session.Elo += elo;
                 }
             }
         }

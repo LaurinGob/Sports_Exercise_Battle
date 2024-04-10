@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Npgsql.Replication.PgOutput.Messages;
+using Sports_Exercise_Battle.DATAACCESS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,12 +19,14 @@ namespace Sports_Exercise_Battle.SEB
         public Tournament() 
         {
             // starts timer that deactivates tournament after 2 minutes
-            Timer activeTimer = new Timer(SetInactive, null, 1000 * 120, Timeout.Infinite);
+            Timer activeTimer = new Timer(SetInactive, null, 1000 * 119, Timeout.Infinite);
             Console.WriteLine("New Tournament started!");
         }
 
         public void AddEntry(TournamentEntry entry)
         {
+            // using session manager to get the current elo
+            BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
             entries.Add(entry);
 
             // add participant to list of participant if not yet added and enters entry into tournament
@@ -40,7 +44,7 @@ namespace Sports_Exercise_Battle.SEB
             }
             if (firstEntry) 
             { 
-                Participants.Add(new Participant(entry.ProfileName, entry.Count));
+                Participants.Add(new Participant(entry.ProfileName, entry.Count, SessionManager.GetELO(entry.ProfileName)));
             }
             
             SortByWinner();
@@ -51,12 +55,28 @@ namespace Sports_Exercise_Battle.SEB
 
         private void ConcludeTournament()
         {
-            // remove winner from participants
-            // Participants.Remove(FirstPlace); // not good weil history verfälscht
-            // reduce ELO of all other -1
-            // code
-            // increase ELO of winner +2
-            // code
+            // using session manager to get the current elo
+            BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
+            string username;
+
+            // iterate over participants update winner with +2 all others with minus 1
+            foreach (Participant participant in Participants)
+            {
+                if (participant.ProfileName == FirstPlace)
+                {
+                    participant.Elo += 2;
+                } else
+                {
+                    participant.Elo -= 1;
+                }
+            }
+
+            // insert elo in db
+            foreach (Participant participant in Participants)
+            {
+                username = SessionManager.GetUsername(participant.ProfileName);
+                DatabaseUpdateElo dbwriter = new DatabaseUpdateElo(participant.Elo, username);
+            }
         }
 
         private void SortByWinner()

@@ -11,11 +11,13 @@ namespace Sports_Exercise_Battle.SEB
     {
         public string ProfileName { get; set; }
         public int Sum { get; set; }
+        public int Elo {  get; set; }
 
-        public Participant(string profileName, int sum)
+        public Participant(string profileName, int sum, int elo)
         {
             ProfileName = profileName;
             Sum = sum;
+            Elo = elo;
         }
 
     }
