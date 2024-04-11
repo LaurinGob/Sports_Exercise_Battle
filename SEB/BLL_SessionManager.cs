@@ -49,11 +49,11 @@ namespace Sports_Exercise_Battle.SEB
             return 0;
         }
 
-        public string GetUsername(string profileName)
+        public string GetUsername(int userID)
         {
             foreach (Session session in OpenSessions)
             {
-                if (session.ProfileName == profileName)
+                if (session.UserID == userID)
                 {
                     return session.Username;
                 }

@@ -73,6 +73,7 @@ namespace Sports_Exercise_Battle.SEB
             // iterate over participants update winner with +2 all others with minus 1
             if (numberOfWinners == 1)
             {
+                Console.WriteLine("Tournament concluded with " + FirstPlace + " as the Winner!");
                 foreach (Participant participant in Participants)
                 {
                     if (participant.ProfileName == FirstPlace)
@@ -86,6 +87,8 @@ namespace Sports_Exercise_Battle.SEB
                 }
             } else
             {
+                Console.WriteLine("Tournament concluded with multiple Winners!");
+                Console.WriteLine("Winners: ");
                 // incase of draws (works also with more than 2 winners!)
                 for (int i = 0; i < Participants.Count; i++)
                 {
@@ -93,6 +96,15 @@ namespace Sports_Exercise_Battle.SEB
                     {
                         Participants[i].Elo += 1;
                         numberOfWinners--;
+                        if (numberOfWinners > 0)
+                        {
+                            Console.Write(Participants[i].ProfileName + ", ");
+                        }
+                        else
+                        {
+                            Console.Write(Participants[i].ProfileName);
+                        }
+                        
                     } else
                     {
                         Participants[i].Elo -= 1;
@@ -100,15 +112,10 @@ namespace Sports_Exercise_Battle.SEB
                 }
             }
 
-            // using session manager to get the current elo
-            BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
-            string username;
-
             // insert elo in db
             foreach (Participant participant in Participants)
             {
-                username = SessionManager.GetUsername(participant.ProfileName);
-                DatabaseUpdateElo dbwriter = new DatabaseUpdateElo(participant.Elo, username);
+                DatabaseUpdateElo dbwriter = new DatabaseUpdateElo(participant.Elo, participant.UserID);
             }
         }
 

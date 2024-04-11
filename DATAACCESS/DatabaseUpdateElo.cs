@@ -10,9 +10,9 @@ namespace Sports_Exercise_Battle.DATAACCESS
 {
     public class DatabaseUpdateElo : BCDatabaseQuery
     {
-        public DatabaseUpdateElo(int userelo, string username) : base()
+        public DatabaseUpdateElo(int userelo, int userID) : base()
         {
-            string queryString = "UPDATE users SET userELO = @userELO WHERE username = @username";
+            string queryString = "UPDATE users SET userELO = @userELO WHERE user_id = @user_id";
 
             using (var cmd = new NpgsqlCommand(queryString, this.conn))
             {
@@ -20,7 +20,7 @@ namespace Sports_Exercise_Battle.DATAACCESS
                 // SET
                 cmd.Parameters.AddWithValue("userELO", userelo);
                 // WHERE
-                cmd.Parameters.AddWithValue("username", username);
+                cmd.Parameters.AddWithValue("user_id", userID);
 
                 try
                 {
