@@ -18,12 +18,12 @@ namespace Sports_Exercise_Battle.SEB
 
         List<Tournament> tournaments = new List<Tournament>();
 
-        public void NewTournamentEntry(TournamentEntry entry)
+        public void NewTournamentEntry(TournamentEntry entry, int userID)
         {
             // adds new entry to tournament
             Tournament currentTournament = GetTournament();
 
-            currentTournament.AddEntry(entry);
+            currentTournament.AddEntry(entry, userID);
         }
 
         private Tournament GetTournament()

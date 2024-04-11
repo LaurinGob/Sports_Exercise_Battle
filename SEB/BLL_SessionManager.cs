@@ -36,12 +36,12 @@ namespace Sports_Exercise_Battle.SEB
             }
         }
 
-        public int GetELO(string username)
+        public int GetELO(int userID)
         {
             // finds session by username
             foreach (Session session in OpenSessions)
             {
-                if (session.ProfileName == username)
+                if (session.UserID == userID)
                 {
                     return session.Elo;
                 }

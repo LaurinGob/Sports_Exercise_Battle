@@ -19,11 +19,11 @@ namespace Sports_Exercise_Battle.SEB
         public Tournament() 
         {
             // starts timer that deactivates tournament after 2 minutes
-            Timer activeTimer = new Timer(SetInactive, null, 1000 * 119, Timeout.Infinite);
+            Timer activeTimer = new Timer(SetInactive, null, 1000 * 120, Timeout.Infinite);
             Console.WriteLine("New Tournament started!");
         }
 
-        public void AddEntry(TournamentEntry entry)
+        public void AddEntry(TournamentEntry entry, int userID)
         {
             // using session manager to get the current elo
             BLL_SessionManager SessionManager = BLL_SessionManager.Instance;
@@ -44,7 +44,7 @@ namespace Sports_Exercise_Battle.SEB
             }
             if (firstEntry) 
             { 
-                Participants.Add(new Participant(entry.ProfileName, entry.Count, SessionManager.GetELO(entry.ProfileName)));
+                Participants.Add(new Participant(entry.ProfileName, entry.Count, SessionManager.GetELO(userID), userID));
             }
             
             SortByWinner();
@@ -99,7 +99,6 @@ namespace Sports_Exercise_Battle.SEB
                     }
                 }
             }
-            
 
             // using session manager to get the current elo
             BLL_SessionManager SessionManager = BLL_SessionManager.Instance;

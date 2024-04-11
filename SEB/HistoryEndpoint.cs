@@ -72,7 +72,7 @@ namespace Sports_Exercise_Battle.SEB
                 if (profileName == null) { throw new Exception("User not logged in"); }
 
                 BLL_TournamentManager TournamentManager = BLL_TournamentManager.Instance;
-                TournamentManager.NewTournamentEntry(new TournamentEntry(userHistory, profileName));
+                TournamentManager.NewTournamentEntry(new TournamentEntry(userHistory, profileName), user_id);
 
                 rs.ResponseCode = 201;
                 rs.ResponseMessage = "Created";
