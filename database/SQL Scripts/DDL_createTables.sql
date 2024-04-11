@@ -7,6 +7,7 @@ DROP VIEW IF EXISTS get_score;
 DROP VIEW IF EXISTS get_history;
 DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS tournaments;
 
 -- create users table
 CREATE TABLE IF NOT EXISTS users (
@@ -29,6 +30,13 @@ CREATE TABLE IF NOT EXISTS history (
     count INTEGER NOT NULL,
     duration INTEGER NOT NULL,
     recordEntry BOOL DEFAULT false
+);
+
+CREATE TABLE IF NOT EXISTS tournaments (
+    tournament_id SERIAL PRIMARY KEY,
+    tournament_started TIMESTAMP DEFAULT current_timestamp,
+    winner VARCHAR(200) NOT NULL,
+    participant_count INTEGER NOT NULL
 );
 
 -- create view for elo and total count (intended for individual user)

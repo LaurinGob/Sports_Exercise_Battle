@@ -11,7 +11,7 @@ namespace Sports_Exercise_Battle.SEB
     public class Tournament
     {
         public bool Active { get; private set; } = true;
-        public DateTime TournamentStarted { get; private set; } = DateTime.Now;
+        public DateTime TournamentStarted { get; private set; } = DateTime.UtcNow;
         public string FirstPlace { get; private set; }
         public List<Participant> Participants { get; private set; } = new List<Participant>();
         public List<TournamentEntry> entries { get; private set; } = new List<TournamentEntry>();
@@ -59,6 +59,8 @@ namespace Sports_Exercise_Battle.SEB
             int firstPlaceSum = Participants.First().Sum;
             int numberOfWinners = 0;
 
+            
+
             foreach (Participant participant in Participants)
             {
                 if (participant.Sum == firstPlaceSum)
@@ -69,6 +71,11 @@ namespace Sports_Exercise_Battle.SEB
                     break;
                 }
             }
+            
+            // start filling tournament record
+            PastTournament tournamentRecord = new PastTournament();
+            tournamentRecord.TournamentStarted = TournamentStarted;
+            tournamentRecord.ParticipantCount = Participants.Count;
 
             // iterate over participants update winner with +2 all others with minus 1
             if (numberOfWinners == 1)
@@ -76,6 +83,7 @@ namespace Sports_Exercise_Battle.SEB
                 Console.WriteLine("Tournament concluded with " + FirstPlace + " as the Winner!");
                 foreach (Participant participant in Participants)
                 {
+                    tournamentRecord.Winner = FirstPlace;
                     if (participant.ProfileName == FirstPlace)
                     {
                         participant.Elo += 2;
@@ -98,10 +106,12 @@ namespace Sports_Exercise_Battle.SEB
                         numberOfWinners--;
                         if (numberOfWinners > 0)
                         {
+                            tournamentRecord.Winner += Participants[i].ProfileName + ", ";
                             Console.Write(Participants[i].ProfileName + ", ");
                         }
                         else
                         {
+                            tournamentRecord.Winner += Participants[i].ProfileName;
                             Console.Write(Participants[i].ProfileName);
                         }
                         
@@ -115,8 +125,11 @@ namespace Sports_Exercise_Battle.SEB
             // insert elo in db
             foreach (Participant participant in Participants)
             {
-                DatabaseUpdateElo dbwriter = new DatabaseUpdateElo(participant.Elo, participant.UserID);
+                DatabaseUpdateElo dbWriterELO = new DatabaseUpdateElo(participant.Elo, participant.UserID);
             }
+
+            // insert tournament record into db
+            DatabaseCreateTournament dbWriterTournament = new DatabaseCreateTournament(tournamentRecord);
         }
 
         private void SortByWinner()

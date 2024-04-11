@@ -183,6 +183,14 @@ echo.
 echo.
 
 REM --------------------------------------------------
+echo 20) unique feature (past tournaments) 
+curl -X GET http://localhost:10001/tournamentHistory --header "Authorization: Basic kienboec-sebToken"
+echo.
+curl -X GET http://localhost:10001/tournamentHistory --header "Authorization: Basic altenhof-sebToken"
+echo.
+echo.
+
+REM --------------------------------------------------
 echo end...
 
 
