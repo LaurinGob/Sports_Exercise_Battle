@@ -33,7 +33,7 @@ namespace Sports_Exercise_Battle.SEB
             {
                 if (joust.Active) { return joust; }
             }
-            Tournament newTournament = new Tournament();
+            Tournament newTournament = new Tournament(120);
             tournaments.Add(newTournament);
             return newTournament;
         }
