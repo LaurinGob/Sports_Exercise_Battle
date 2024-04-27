@@ -16,11 +16,12 @@ namespace Sports_Exercise_Battle.SEB
         public List<Participant> Participants { get; private set; } = new List<Participant>();
         public List<TournamentEntry> entries { get; private set; } = new List<TournamentEntry>();
         public List<String> Log { get; private set; } = new List<String>();
+        Timer activeTimer;
 
         public Tournament(int time) 
         {
             // starts timer that deactivates tournament after *time* seconds
-            Timer activeTimer = new Timer(SetInactive, null, 1000 * time, Timeout.Infinite);
+            activeTimer = new Timer(SetInactive, null, 1000 * time, Timeout.Infinite);
             Log.Add(DateTime.UtcNow + ": Tournament started!");
         }
 
